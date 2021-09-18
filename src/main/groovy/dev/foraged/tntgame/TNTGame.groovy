@@ -7,6 +7,7 @@ import dev.foraged.game.board.GameBoardAdapter
 import dev.foraged.game.task.GameTask
 import dev.foraged.game.util.CC
 import dev.foraged.game.util.TimeUtil
+import dev.foraged.tntgame.listener.TNTGameListener
 import dev.foraged.tntgame.player.TNTGamePlayer
 import dev.foraged.tntgame.player.TNTGamePlayerState
 import dev.foraged.tntgame.task.TNTGameCampTask
@@ -30,6 +31,7 @@ class TNTGame extends Game<TNTGamePlayer, UnlimitedArena> implements Spectatable
         arena = new UnlimitedArena()
         arena.spawnPoints = new Location(Bukkit.getWorlds()[0], 100, 5, 100)
         gameState = TNTGameState.WAITING
+        register(new TNTGameListener())
     }
 
     @Override
@@ -69,7 +71,7 @@ class TNTGame extends Game<TNTGamePlayer, UnlimitedArena> implements Spectatable
     @Override
     void start() {
         super.start()
-        broadcast("&a&lThe game has started!")
+        broadcast("&b&lThe game has started!")
         new GameTask(plugin, new TNTGameCampTask(instance)).delay(5L).repeating()
         new GameTask(plugin, new TNTGamePointTask(instance)).delay(300L).repeating()
         gameState = TNTGameState.ACTIVE
@@ -129,48 +131,48 @@ class TNTGame extends Game<TNTGamePlayer, UnlimitedArena> implements Spectatable
         switch (gameState) {
             case TNTGameState.WAITING: {
                 return [
-                        "&7${new SimpleDateFormat("dd/MM/yy").format(new Date(System.currentTimeMillis()))}",
+                        arenaInfo,
                         "",
-                        "&fMap: &a${arena.class.simpleName}",
-                        "&fPlayers: &a${players.size()}/${Bukkit.maxPlayers}",
+                        "&fMap: &b${arena.class.simpleName}",
+                        "&fPlayers: &b${players.size()}/${Bukkit.maxPlayers}",
                         "",
-                        "&fWaiting for &a${required}&f more",
+                        "&fWaiting for &b${required}&f more",
                         "&fplayer${required == 1 ? "" : "s"} to join",
                         "",
-                        "&fGame: &a${name}",
+                        "&fGame: &b${name}",
                         "",
-                        "&ewww.twoot.tk"
+                        footer
                 ]
             }
             case TNTGameState.STARTING: {
                 return [
-                        "&7${new SimpleDateFormat("dd/MM/yy").format(new Date(System.currentTimeMillis()))}",
+                        arenaInfo,
                         "",
-                        "&fMap: &a${arena.class.simpleName}",
-                        "&fPlayers: &a${players.size()}/${Bukkit.maxPlayers}",
+                        "&fMap: &b${arena.class.simpleName}",
+                        "&fPlayers: &b${players.size()}/${Bukkit.maxPlayers}",
                         "",
-                        "&fStarting in &a${new SimpleDateFormat("mm:ss").format(new Date(_startTime * 1000))}&f to",
+                        "&fStarting in &b${new SimpleDateFormat("mm:ss").format(new Date(_startTime * 1000))}&f to",
                         "&fallow time for",
                         "&fadditional players",
                         "",
-                        "&fGame: &a${name}",
+                        "&fGame: &b${name}",
                         "",
-                        "&ewww.twoot.tk"
+                        footer
                 ]
             }
             case TNTGameState.ACTIVE:
             case TNTGameState.ENDING: {
                 return [
-                        "&7Duration: ${TimeUtil.millisToRoundedTime(System.currentTimeMillis() - started)}",
+                        "&7Duration: ${TimeUtil.formatTime(System.currentTimeMillis() - started)}",
                         "",
-                        "&fDouble Jump: &a${data.doubleJumps}&7/6",
+                        "&fDouble Jump: &b${data.doubleJumps}&7/6",
                         "",
-                        "&fPlayers Alive: &a${players.values().stream().filter(it -> it.state == TNTGamePlayerState.ALIVE).count()}",
+                        "&fPlayers Alive: &b${players.values().stream().filter(it -> it.state == TNTGamePlayerState.ALIVE).count()}",
                         "",
-                        "&fCoins Earned: &a${data.coins as int}",
+                        "&fCoins Earned: &b${data.coins}",
                         "",
-                        "&7${new SimpleDateFormat("dd/MM/yy").format(new Date(System.currentTimeMillis()))}",
-                        "&ewww.twoot.tk"
+                        arenaInfo,
+                        footer
                 ]
             }
         }

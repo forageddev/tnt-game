@@ -32,7 +32,6 @@ class TNTGameListener implements Listener {
         Player player = e.player
 
         e.joinMessage = null
-
         if (game.gameState == TNTGameState.WAITING || game.gameState == TNTGameState.STARTING) {
             game.join(player)
         } else {
