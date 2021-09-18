@@ -6,7 +6,6 @@ import dev.foraged.tntgame.TNTGamePlugin
 import dev.foraged.tntgame.TNTGameState
 import dev.foraged.tntgame.player.TNTGamePlayer
 import dev.foraged.tntgame.player.TNTGamePlayerState
-import org.bukkit.ChatColor
 import org.bukkit.scheduler.BukkitRunnable
 
 class TNTGamePointTask extends BukkitRunnable {
@@ -21,12 +20,8 @@ class TNTGamePointTask extends BukkitRunnable {
     void run() {
         if (game.gameState != TNTGameState.ACTIVE) return
         game.players().each {
-            TNTGamePlayer data = TNTGamePlugin.instance.game.getPlayerData(it.uniqueId)
-
-            if (data.state == TNTGamePlayerState.ALIVE) {
-                data.coins = data.coins + 30
-                it.sendMessage "${ChatColor.GOLD}+30 coins! (Survive Bonus)"
-            }
+            TNTGamePlayer data = game.getPlayerData(it.uniqueId)
+            if (data.state == TNTGamePlayerState.ALIVE) data.coins(30, "Survive Bonus")
         }
     }
 }

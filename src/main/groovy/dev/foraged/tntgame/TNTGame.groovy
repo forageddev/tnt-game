@@ -92,8 +92,8 @@ class TNTGame extends Game<TNTGamePlayer, UnlimitedArena> implements Spectatable
 
     @Override
     void join(Player player) {
-        super.join(player)
         players.put(player.uniqueId, new TNTGamePlayer(player.uniqueId))
+        super.join(player)
 
         if (players.size() == 2) ready()
     }

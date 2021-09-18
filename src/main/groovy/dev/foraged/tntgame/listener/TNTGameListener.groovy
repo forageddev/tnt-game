@@ -90,9 +90,12 @@ class TNTGameListener implements Listener {
                 if (from.blockY < 0 || player.inLava || player.inWater) {
                     game.startSpectating(player)
                     player.sendMessage(CC.translate("&cYou died! &eYou can now spectate the game!"))
-                    game.broadcast("&7${player.name} &cdied!")
+                    game.broadcast("&7${player.displayName} &cdied!")
                     game.broadcast("&e${game.alivePlayers().size()} players remaining.")
-                    if (game.alivePlayers().size() == 1) game.stop()
+                    if (game.alivePlayers().size() == 1) {
+                        game.getPlayerData(game.alivePlayers().first()).coins(250, "Win Bonus")
+                        game.stop()
+                    }
                     return
                 }
 
