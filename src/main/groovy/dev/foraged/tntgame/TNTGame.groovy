@@ -52,9 +52,6 @@ class TNTGame extends Game<TNTGamePlayer, UnlimitedArena> implements Spectatable
 
                 _startTime--
                 if (_startTime == 0) {
-                    broadcast("&a&lThe game has started!")
-                    new GameTask(plugin, new TNTGameCampTask(instance)).delay(5L).repeating()
-                    new GameTask(plugin, new TNTGamePointTask(instance)).delay(300L).repeating()
                     start()
                     cancel()
                 } else if (_startTime % 5 == 0 || _startTime <= 5) {
@@ -72,6 +69,9 @@ class TNTGame extends Game<TNTGamePlayer, UnlimitedArena> implements Spectatable
     @Override
     void start() {
         super.start()
+        broadcast("&a&lThe game has started!")
+        new GameTask(plugin, new TNTGameCampTask(instance)).delay(5L).repeating()
+        new GameTask(plugin, new TNTGamePointTask(instance)).delay(300L).repeating()
         gameState = TNTGameState.ACTIVE
         players().each {it.allowFlight = true}
     }
