@@ -1,0 +1,3 @@
+name: "TNTRun"
+main: "dev.foraged.tntgame.TNTGamePlugin"
+version: "1.0-SNAPSHOT"
