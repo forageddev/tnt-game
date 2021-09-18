@@ -98,12 +98,12 @@ class TNTGameListener implements Listener {
                 }
 
                 data.lastMovement = System.currentTimeMillis()
-                new GameTask(game.plugin, () -> {
-                    if (relative.type != Material.AIR) {
-                        data.blocksFallen = data.blocksFallen + 1
-                        relative.type = Material.AIR
-                    }
-                }).delay(10L).complete()
+                if (relative.type != Material.AIR) {
+                    new GameTask(game.plugin, () -> {
+                            data.blocksFallen = data.blocksFallen + 1
+                            relative.type = Material.AIR
+                    }).delay(10L).complete()
+                }
             }
         }
     }
